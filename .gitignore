@@ -127,3 +127,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Unity environment files for Linux
+*_Linux
+*.ipynb
