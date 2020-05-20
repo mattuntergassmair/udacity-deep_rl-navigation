@@ -4,6 +4,7 @@
 # Udacity Nanodegree: Deep Reinforcement Learning
 # https://www.udacity.com/course/deep-reinforcement-learning-nanodegree--nd893
 
+import numpy as np
 import matplotlib.pyplot as plt
 
 from unityagents import UnityEnvironment
@@ -18,8 +19,10 @@ def main():
     Collect yellow bananas, avoid blue ones
     """
     # file_name pointing to Unity environment
-    env = UnityEnvironment(file_name="Banana_Linux/Banana.x86_64")  # with visualization
-    # env = UnityEnvironment(file_name="Banana_Linux_NoVis/Banana.x86_64")  # no visualization (about 5% faster)
+    rnd_seed = 42
+    np.random.seed(rnd_seed)
+    env = UnityEnvironment(file_name="Banana_Linux/Banana.x86_64", seed=rnd_seed)  # with visualization
+    # env = UnityEnvironment(file_name="Banana_Linux_NoVis/Banana.x86_64", seed=rnd_seed)  # no visualization (about 5% faster)
 
     # Environments contain brains which are responsible
     # for deciding the actions of their associated agents.
@@ -54,8 +57,8 @@ def main():
     # layer_sizes = [1024, 1024]
     layer_sizes = [2*state_size, state_size, 16, 8]
     agents = {
-        'random': RandomAgent(action_size, brain_name),
-        'dqn':    DQNAgent(state_size, action_size, layer_sizes, brain_name)
+        'random': RandomAgent(action_size),
+        'dqn':    DQNAgent(state_size, action_size, layer_sizes)
     }
 
     # TODO: using multiple brain names
@@ -69,9 +72,9 @@ def main():
     #  - TODO: implement improved Q-learning (rainbow)
 
     # TODO: n_episodes vs n_epochs
-    scores = simulate(env, agents['dqn'], brain_name, learn=True, n_episodes=1000) # 1400)
+    scores = simulate(env, agents['dqn'], brain_name, learn=True, n_episodes=800) # 1400)
 
-    window_size = 40
+    window_size = 32
     plt.plot(
         range(window_size, len(scores)+1),
         moving_average(scores, window_size)

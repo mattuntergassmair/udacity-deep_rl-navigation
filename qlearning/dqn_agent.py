@@ -1,10 +1,12 @@
+import warnings
 import numpy as np
+
 import torch
 import torch.optim as optim
+import torch.nn.functional as F
 
 from .q_network import QNetwork
 from .replay_buffer import ReplayBuffer
-import torch.nn.functional as F  # TODO: remove
 
 
 class DQNAgent:
@@ -15,14 +17,16 @@ class DQNAgent:
             self,
             n_states, n_actions, layer_sizes,
             epsilon=.1,
-            replay_buffer_size=int(1e4),
-            batch_size=128,
+            replay_buffer_size=int(1e5),
+            batch_size=64,
             gamma=.99,
             alpha=5e-4, # learning rate
             tau=1e-3, # for soft update
             n_learn=4,
             seed=42,
     ):
+        if not torch.cuda.is_available():
+            warnings.warn("GPU is not available, using {}".format(DQNAgent.device))
         self.n_actions = n_actions
         self.n_states = n_states
         self.seed = seed
@@ -38,7 +42,7 @@ class DQNAgent:
         ).to(DQNAgent.device)
         self.q_network_target = QNetwork(
             n_states, layer_sizes, n_actions, seed
-        ).to(DQNAgent.device)  # TODO: use copy.deepcopy instead
+        ).to(DQNAgent.device)
 
         # optimizer and loss function
         self.optimizer = optim.Adam(self.q_network_local.parameters(), lr=alpha)
@@ -68,7 +72,7 @@ class DQNAgent:
         q0_local = self.q_network_local(s0).gather(1, a)
         q1_target = self.q_network_target(s1).detach().max(1)[0].unsqueeze(1)
         q0_target = r + self.gamma * q1_target * (1 - done)
-        # loss = self.criterion(q0_local, q0_target)  # TODO: uncomment
+        # loss = self.criterion(q0_local, q0_target)
         loss = F.mse_loss(q0_local, q0_target)
         self.optimizer.zero_grad()
         loss.backward()

@@ -1,6 +1,5 @@
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
 
 
 class QNetwork(nn.Module):
@@ -21,7 +20,7 @@ class QNetwork(nn.Module):
             *(
                 nn.Sequential(
                     nn.Linear(n_in, n_out),
-                    # nn.Dropout(p=1./n_out),
+                    # nn.Dropout(p=1./n_out),  # TODO: why are dropout layers bad for RL?
                     nn.ReLU()
                 )
                 for n_in, n_out in
