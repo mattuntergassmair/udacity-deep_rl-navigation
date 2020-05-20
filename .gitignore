@@ -130,4 +130,7 @@ dmypy.json
 
 # Unity environment files for Linux
 *_Linux
+*_Linux_NoVis
 *.ipynb
+
+*.pth
