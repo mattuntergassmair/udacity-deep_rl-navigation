@@ -72,7 +72,7 @@ def main():
     #  - TODO: implement improved Q-learning (rainbow)
 
     # TODO: n_episodes vs n_epochs
-    scores = simulate(env, agents['dqn'], brain_name, learn=True, n_episodes=800) # 1400)
+    scores = simulate(env, agents['dqn'], brain_name, learn=True, n_episodes=1000)
 
     window_size = 32
     plt.plot(
