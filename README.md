@@ -4,7 +4,6 @@
 
 # Project 1: Navigation
 Udacity Deep Reinforcement Learning Nanodegree  
-udacity-deep_rl-navigation
 
 ![Trained Agent][image1]
 
@@ -32,7 +31,7 @@ of +13 per episode.
 Using a Deep Q-Network with hidden layer sizes [74,37,16,8] to approximate the action-value function,
 the episode can be solved in about 300 episodes.
 
-![Reward evolution][graphics/reward_evolution.png]
+![Reward evolution](graphics/reward_evolution.png)
 
 
 ### Installation
