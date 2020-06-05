@@ -18,11 +18,13 @@ def main():
     """
     Collect yellow bananas, avoid blue ones
     """
-    # file_name pointing to Unity environment
+
     rnd_seed = 42
     np.random.seed(rnd_seed)
-    env = UnityEnvironment(file_name="Banana_Linux/Banana.x86_64", seed=rnd_seed)  # with visualization
-    # env = UnityEnvironment(file_name="Banana_Linux_NoVis/Banana.x86_64", seed=rnd_seed)  # no visualization (about 5% faster)
+
+    # file_name pointing to Unity environment
+    env = UnityEnvironment(file_name="envs/Banana_Linux/Banana.x86_64", seed=rnd_seed)  # with visualization
+    # env = UnityEnvironment(file_name="envs/Banana_Linux_NoVis/Banana.x86_64", seed=rnd_seed)  # no visualization (about 5% faster)
 
     # Environments contain brains which are responsible
     # for deciding the actions of their associated agents.
@@ -52,26 +54,13 @@ def main():
     print('States have length:', state_size)
 
     # define agents
-    # layer_sizes = [state_size, state_size, 18, 8, action_size]
-    # layer_sizes = [4*state_size, 2*state_size, state_size, state_size, 16, 8]
-    # layer_sizes = [1024, 1024]
     layer_sizes = [2*state_size, state_size, 16, 8]
     agents = {
         'random': RandomAgent(action_size),
         'dqn':    DQNAgent(state_size, action_size, layer_sizes)
     }
 
-    # TODO: using multiple brain names
-    # TODO: save model to disk, load from disk
-    # TODO: reward boxplot
-    # TODO: make sure all random generators are seeded
-    #
-    # Improvements:
-    #  - TODO: Dropout Layers? batch normalization?
-    #  - TODO: adaptive learning rates (alpha, tau, epsilon)
-    #  - TODO: implement improved Q-learning (rainbow)
-
-    # TODO: n_episodes vs n_epochs
+    # simulate
     scores = simulate(env, agents['dqn'], brain_name, learn=True, n_episodes=1000)
 
     window_size = 32

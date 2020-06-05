@@ -10,7 +10,7 @@ Udacity Deep Reinforcement Learning Nanodegree
 
 ### Project Description
 
-This project is part of the Udacity Deep Reinforcement Learning Nanodegree.
+This project is part of the Udacity Deep Reinforcement Learning Nanodegree program.
 The agent can apply four discrete actions to move through a 2D square plane:
 `move forward`, `move backward`, `turn left`, `turn right`.
 The agent can accumulate rewards (`+1`) by collecting yellow bananas 
